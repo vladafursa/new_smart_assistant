@@ -11,3 +11,4 @@ supabase-functions==2.27.0
 
 python-dotenv~=1.2.1
 storage3~=2.27.0
+pydantic==2.12.5
