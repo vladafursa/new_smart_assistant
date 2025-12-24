@@ -1,9 +1,13 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi import FastAPI, UploadFile, File, HTTPException, Form
 from src.storage import upload_file, get_preview_url, list_all_files
 from storage3.exceptions import StorageApiError
-
+from pydantic import BaseModel
 
 api = FastAPI()
+
+
+class CategoryMeta(BaseModel):
+    category: str
 
 
 @api.get("/")
@@ -12,10 +16,10 @@ def read_root():
 
 
 @api.post("/upload")
-async def upload(file: UploadFile = File(...)):
+async def upload(category: str = Form(...), file: UploadFile = File(...)):
     content = await file.read()
     try:
-        upload_file(file.filename, content)
+        upload_file(file.filename, content, category)
         preview_url = get_preview_url(file.filename)
         return {
             "message": "File uploaded successfully",
