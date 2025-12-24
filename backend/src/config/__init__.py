@@ -6,6 +6,7 @@ from .settings import (
     INDEX_NAME,
     CHUNK_SIZE,
     CHUNK_OVERLAP,
+    SUPABASE_TABLE,
     SUPABASE_URL,
     SUPABASE_KEY,
 )

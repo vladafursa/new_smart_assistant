@@ -3,6 +3,7 @@ import os
 
 load_dotenv()
 BUCKET_NAME = "files"
+SUPABASE_TABLE = "documents"
 PINECONE_KEY = os.getenv("PINECONE_KEY")
 HUGGINGFACE_KEY = os.getenv("HUGGINGFACE_KEY")
 LLM_KEY = os.getenv("LLM_KEY")
