@@ -5,4 +5,5 @@ api = FastAPI()
 
 
 @api.get("/")
-def read_root(): return {"message": "Hello, FastAPI!"}
+def read_root():
+    return {"message": "Hello, FastAPI!"}
