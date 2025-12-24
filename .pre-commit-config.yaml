@@ -10,4 +10,4 @@ repos:
     rev: 6.1.0
     hooks:
       - id: flake8
-        args: [--ignore=F401]
+        args: [--ignore=F401,--max-line-length=88]

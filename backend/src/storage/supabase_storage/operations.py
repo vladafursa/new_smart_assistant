@@ -16,3 +16,7 @@ def upload_file(filename: str, content: bytes):
 
 def get_preview_url(filename: str) -> str:
     return supabase.storage.from_(BUCKET_NAME).get_public_url(filename)
+
+
+def list_all_files() -> list:
+    return supabase.storage.from_(BUCKET_NAME).list()

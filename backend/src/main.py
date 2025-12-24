@@ -1,5 +1,5 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
-from src.storage import upload_file, get_preview_url
+from src.storage import upload_file, get_preview_url, list_all_files
 from storage3.exceptions import StorageApiError
 
 
@@ -24,5 +24,22 @@ async def upload(file: UploadFile = File(...)):
         }
     except StorageApiError as e:
         raise HTTPException(status_code=403, detail=f"Upload failed: {e}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Unexpected error: {e}")
+
+
+@api.get("/files")
+async def files():
+    try:
+        result = list_all_files()
+        return {
+            "files": [
+                {"filename": obj["name"], "preview_url": get_preview_url(obj["name"])}
+                for obj in result
+                if obj["name"] != ".emptyFolderPlaceholder"
+            ]
+        }
+    except StorageApiError as e:
+        raise HTTPException(status_code=403, detail=f"Listing failed: {e}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Unexpected error: {e}")
