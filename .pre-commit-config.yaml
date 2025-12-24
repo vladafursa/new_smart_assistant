@@ -18,5 +18,4 @@ repos:
         name: eslint
         entry: npx eslint .
         language: node
-        types: [javascript, jsx]
-					
+        types: [javascript, jsx]					
