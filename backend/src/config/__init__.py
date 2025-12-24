@@ -1,4 +1,5 @@
 from .settings import (
+    BUCKET_NAME,
     PINECONE_KEY,
     HUGGINGFACE_KEY,
     LLM_KEY,
