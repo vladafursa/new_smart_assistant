@@ -1,0 +1,22 @@
+repos:
+  # Python: Black (форматирование)
+  - repo: https://github.com/psf/black
+    rev: 23.9.1
+    hooks:
+      - id: black
+
+  # Python: Flake8 (стиль и ошибки)
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.1.0
+    hooks:
+      - id: flake8
+
+  # JavaScript/React: ESLint
+  - repo: local
+    hooks:
+      - id: eslint
+        name: eslint
+        entry: npx eslint .
+        language: node
+        types: [javascript, jsx]
+					
