@@ -1,5 +1,6 @@
 fastapi==0.127.0
 pre_commit==4.5.1
 uvicorn==0.40.0
+dotenv==0.9.9
 
 
