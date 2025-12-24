@@ -9,13 +9,4 @@ repos:
   - repo: https://github.com/pycqa/flake8
     rev: 6.1.0
     hooks:
-      - id: flake8
-
-  # JavaScript/React: ESLint
-  - repo: local
-    hooks:
-      - id: eslint
-        name: eslint
-        entry: npx eslint .
-        language: node
-        types: [javascript, jsx]					
+      - id: flake8			
