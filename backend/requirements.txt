@@ -1,6 +1,9 @@
+dotenv==0.9.9
 fastapi==0.127.0
 pre_commit==4.5.1
 uvicorn==0.40.0
-dotenv==0.9.9
+supabase==2.27.0
+supabase-auth==2.27.0
+supabase-functions==2.27.0
 
 

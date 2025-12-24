@@ -1,0 +1,10 @@
+from .settings import (
+    PINECONE_KEY,
+    HUGGINGFACE_KEY,
+    LLM_KEY,
+    INDEX_NAME,
+    CHUNK_SIZE,
+    CHUNK_OVERLAP,
+    SUPABASE_URL,
+    SUPABASE_KEY,
+)
