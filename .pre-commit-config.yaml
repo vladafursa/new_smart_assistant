@@ -19,6 +19,6 @@ repos:
         args: [
           "--profile", "black",
           "--line-length", "88", 
-          "--p", "src",
+          "-p", "src",
           "-o", "supabase,storage3",
         ]
