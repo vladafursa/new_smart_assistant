@@ -19,7 +19,6 @@ repos:
         args: [
           "--profile", "black",
           "--line-length", "88", 
-          "--known-first-party", "src",
-          "--known-third-party", "supabase,storage3",
-          "--sections", "STDLIB,THIRDPARTY,FIRSTPARTY,LOCALFOLDER"
+          "--p", "src",
+          "-o", "supabase,storage3",
         ]
