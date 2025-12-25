@@ -1,11 +1,13 @@
-from src.config import SUPABASE_KEY, SUPABASE_URL, BUCKET_NAME, SUPABASE_TABLE
 from supabase import create_client
 from storage3.exceptions import StorageApiError
+
+from src.config import SUPABASE_KEY, SUPABASE_URL, BUCKET_NAME, SUPABASE_TABLE
 
 
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 
+# file upload into supabase storage and its metadata into table
 def upload_file(filename: str, content: bytes, category: str):
     try:
         response = supabase.storage.from_(BUCKET_NAME).upload(filename, content)
