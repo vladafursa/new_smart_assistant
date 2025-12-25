@@ -16,4 +16,10 @@ repos:
     rev: 5.12.0 
     hooks: 
       - id: isort
-        args: ["--profile", "black", "--line-length", "88"]
+        args: [
+          "--profile", "black",
+          "--line-length", "88", 
+          "--known-first-party", "src",
+          "--known-third-party", "supabase,storage3",
+          "--sections", "STDLIB,THIRDPARTY,FIRSTPARTY,LOCALFOLDER"
+        ]
