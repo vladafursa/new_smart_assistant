@@ -1,8 +1,6 @@
-from supabase import create_client
+from src.config import BUCKET_NAME, SUPABASE_KEY, SUPABASE_TABLE, SUPABASE_URL
 from storage3.exceptions import StorageApiError
-
-from src.config import SUPABASE_KEY, SUPABASE_URL, BUCKET_NAME, SUPABASE_TABLE
-
+from supabase import create_client
 
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 

@@ -1,7 +1,7 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException, Form
-from src.storage import upload_file, get_preview_url, list_all_files
-from storage3.exceptions import StorageApiError
+from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from pydantic import BaseModel
+from src.storage import get_preview_url, list_all_files, upload_file
+from storage3.exceptions import StorageApiError
 
 api = FastAPI()
 

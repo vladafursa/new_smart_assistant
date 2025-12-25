@@ -5,8 +5,8 @@ from .settings import (
     HUGGINGFACE_KEY,
     INDEX_NAME,
     LLM_KEY,
-    SUPABASE_KEY,
     PINECONE_KEY,
+    SUPABASE_KEY,
     SUPABASE_TABLE,
     SUPABASE_URL,
 )
