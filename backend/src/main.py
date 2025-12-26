@@ -1,10 +1,19 @@
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from storage3.exceptions import StorageApiError
 
 from src.storage import get_preview_url, list_all_files, upload_file
 
 api = FastAPI()
+
+api.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 class CategoryMeta(BaseModel):
