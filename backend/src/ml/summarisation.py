@@ -60,7 +60,9 @@ def summarize_question(question):
 
     # try Hugging Face API
     try:
-        response = requests.post("", headers=headers, json=payload, timeout=30)
+        response = requests.post(
+            CHAT_COMPLETIONS_URL, headers=headers, json=payload, timeout=30
+        )
         response.raise_for_status()
         return response.json()["choices"][0]["message"]["content"]
     except (HTTPError, RequestException, KeyError, IndexError, ValueError) as e:
