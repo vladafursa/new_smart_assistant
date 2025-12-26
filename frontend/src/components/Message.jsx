@@ -2,7 +2,9 @@ const Message = ({ sender, text }) => {
   const isUser = sender === "user";
 
   return (
-    <div className={`flex flex-col mb-3 ${isUser ? "items-start" : "items-end"}`}>
+    <div
+      className={`flex flex-col mb-3 ${isUser ? "items-start" : "items-end"}`}
+    >
       <span className="text-xs text-gray-500 mb-1">{sender}</span>
       <div
         className={`px-4 py-2 rounded-lg shadow max-w-md ${

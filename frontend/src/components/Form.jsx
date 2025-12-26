@@ -6,7 +6,7 @@ const Form = ({ onSend, sender }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!value.trim()) return;
-    onSend?.(value, sender); 
+    onSend?.(value, sender);
     setValue("");
   };
 

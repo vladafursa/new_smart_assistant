@@ -34,7 +34,10 @@ const FileList = () => {
       <h2 className="text-lg font-semibold mb-4">Uploaded Files</h2>
       <ul className="space-y-2">
         {files.map((f) => (
-          <li key={f.filename} className="flex justify-between items-center p-2 border rounded">
+          <li
+            key={f.filename}
+            className="flex justify-between items-center p-2 border rounded"
+          >
             <span>{f.filename}</span>
             <a
               href={f.preview_url}

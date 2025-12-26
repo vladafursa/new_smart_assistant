@@ -39,13 +39,19 @@ const DropBox = () => {
     formData.append("category", category);
 
     try {
-      const response = await axios.post("http://localhost:8000/upload", formData, {
-        onUploadProgress: (progressEvent) => {
-          const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-          setProgress(percent);
-          setMessage(`Uploading... ${percent}%`);
+      const response = await axios.post(
+        "http://localhost:8000/upload",
+        formData,
+        {
+          onUploadProgress: (progressEvent) => {
+            const percent = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total,
+            );
+            setProgress(percent);
+            setMessage(`Uploading... ${percent}%`);
+          },
         },
-      });
+      );
 
       setStatus("success");
       setMessage(`File uploaded successfully: ${response.data.filename}`);
@@ -88,11 +94,21 @@ const DropBox = () => {
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path strokeWidth="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M16 12l-4-4m0 0l-4 4m4-4v12" />
+          <path
+            strokeWidth="2"
+            d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M16 12l-4-4m0 0l-4 4m4-4v12"
+          />
         </svg>
-        <p className="mt-3 text-gray-600 font-medium">Click to choose or drag & drop file</p>
+        <p className="mt-3 text-gray-600 font-medium">
+          Click to choose or drag & drop file
+        </p>
 
-        <input ref={uploadRef} type="file" style={{ display: "none" }} onChange={handleChange} />
+        <input
+          ref={uploadRef}
+          type="file"
+          style={{ display: "none" }}
+          onChange={handleChange}
+        />
       </div>
 
       {/* file name */}
