@@ -1,66 +1,82 @@
-import { useRef, useState } from 'react'
+import { useRef, useState } from "react";
+import axios from "axios";
 
 const DropBox = () => {
-  const uploadRef = useRef(null)  
-  const [file, setFile] = useState(null)
-  const [isDragOver, setIsDragOver] = useState(false)
-  const [category, setCategory] = useState("")
+  const uploadRef = useRef(null);
+  const [file, setFile] = useState(null);
+  const [isDragOver, setIsDragOver] = useState(false);
+  const [category, setCategory] = useState("");
+  const [status, setStatus] = useState(null); // "loading", "success", "error"
+  const [message, setMessage] = useState("");
+  const [progress, setProgress] = useState(0);
 
   const handleChange = () => {
-    setFile(uploadRef.current.files[0])
-  }
+    setFile(uploadRef.current.files[0]);
+  };
 
   const handleDragOver = (e) => {
-    e.preventDefault()
-    setIsDragOver(true)
-  }
+    e.preventDefault();
+    setIsDragOver(true);
+  };
 
   const handleDrop = (e) => {
-    e.preventDefault()
-    setFile(e.dataTransfer.files[0])
-    setIsDragOver(false)  
-  }
+    e.preventDefault();
+    setFile(e.dataTransfer.files[0]);
+    setIsDragOver(false);
+  };
 
   const handleUpload = async () => {
-   if (!file || !category) {
-    return console.warn("Choose category before upload");
+    if (!file || !category) {
+      return console.warn("Choose category before upload");
     }
 
-    const formData = new FormData()
-    formData.append("file", file)
-    formData.append("category", category)
-    formData.append("author", "admin")
-    const now = new Date().toLocaleString(); 
-    formData.append("date-time", now);
+    setStatus("loading");
+    setMessage("Uploading file...");
+    setProgress(0);
 
-    await fetch("http://localhost:8000/upload", {
-      method: "POST",
-      body: formData,
-    })
-  }
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("category", category);
+
+    try {
+      const response = await axios.post("http://localhost:8000/upload", formData, {
+        onUploadProgress: (progressEvent) => {
+          const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+          setProgress(percent);
+          setMessage(`Uploading... ${percent}%`);
+        },
+      });
+
+      setStatus("success");
+      setMessage(`File uploaded successfully: ${response.data.filename}`);
+      setProgress(100);
+    } catch (err) {
+      setStatus("error");
+      setMessage("Upload failed.");
+    }
+  };
 
   return (
     <div className="mx-auto max-w-xl p-8 flex flex-col items-center space-y-6">
-       {/* category selection*/}
-       <div className="w-full">
+      {/* category selection */}
+      <div className="w-full">
         <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="w-full rounded-md border border-gray-300 bg-white p-3 text-gray-700 shadow-sm 
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="w-full rounded-md border border-gray-300 bg-white p-3 text-gray-700 shadow-sm 
                     focus:border-blue-500 focus:ring-2 focus:ring-blue-500 transition"
         >
-            <option value="">-- Choose category --</option>
-            <option value="customer"> Customer</option>
-            <option value="technical"> Technical</option>
+          <option value="">-- Choose category --</option>
+          <option value="customer">Customer</option>
+          <option value="technical">Technical</option>
         </select>
-        </div>
-
+      </div>
 
       {/* drop zone */}
       <div
         className={`w-full rounded-xl border-2 border-dashed border-gray-300 p-12 text-center cursor-pointer transition 
           hover:border-blue-500 hover:bg-blue-50 
-          ${isDragOver ? 'opacity-70 border-blue-500 bg-blue-50' : ''}`}
+          ${isDragOver ? "opacity-70 border-blue-500 bg-blue-50" : ""}`}
         onClick={() => uploadRef.current.click()}
         onDragOver={handleDragOver}
         onDrop={handleDrop}
@@ -72,21 +88,11 @@ const DropBox = () => {
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path
-            strokeWidth="2"
-            d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M16 12l-4-4m0 0l-4 4m4-4v12"
-          />
+          <path strokeWidth="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M16 12l-4-4m0 0l-4 4m4-4v12" />
         </svg>
-        <p className="mt-3 text-gray-600 font-medium">
-          Click to choose or drag & drop file
-        </p>
+        <p className="mt-3 text-gray-600 font-medium">Click to choose or drag & drop file</p>
 
-        <input
-          ref={uploadRef}
-          type="file"
-          style={{ display: 'none' }}
-          onChange={handleChange}
-        />
+        <input ref={uploadRef} type="file" style={{ display: "none" }} onChange={handleChange} />
       </div>
 
       {/* file name */}
@@ -99,12 +105,33 @@ const DropBox = () => {
       {/* upload button */}
       <button
         onClick={handleUpload}
-       className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors"
+        className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors"
       >
         Upload File
       </button>
-    </div>
-  )
-}
 
-export default DropBox
+      {/* status messages */}
+      {status === "loading" && (
+        <p className="text-blue-500 font-medium">{message}</p>
+      )}
+      {status === "success" && (
+        <p className="text-green-600 font-medium">{message}</p>
+      )}
+      {status === "error" && (
+        <p className="text-red-600 font-medium">{message}</p>
+      )}
+
+      {/* progress bar */}
+      {status === "loading" && (
+        <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+          <div
+            className="bg-blue-500 h-2.5 rounded-full transition-all"
+            style={{ width: `${progress}%` }}
+          ></div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default DropBox;
