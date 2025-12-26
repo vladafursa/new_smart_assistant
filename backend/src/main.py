@@ -1,9 +1,19 @@
+import logging
+
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from storage3.exceptions import StorageApiError
 
 from src.storage import get_preview_url, list_all_files, upload_file
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+    handlers=[
+        logging.StreamHandler(),
+    ],
+)
 
 api = FastAPI()
 
