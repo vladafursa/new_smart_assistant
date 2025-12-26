@@ -1,5 +1,6 @@
 from .settings import (
     BUCKET_NAME,
+    CHAT_COMPLETIONS_URL,
     CHUNK_OVERLAP,
     CHUNK_SIZE,
     HEADERS,
