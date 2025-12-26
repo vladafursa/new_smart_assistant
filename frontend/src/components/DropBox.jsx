@@ -22,10 +22,10 @@ const DropBox = () => {
   }
 
   const handleUpload = async () => {
-    if (!file || !category) {
-      alert("Choose the category before upload!")
-      return
+   if (!file || !category) {
+    return console.warn("Choose category before upload");
     }
+
     const formData = new FormData()
     formData.append("file", file)
     formData.append("category", category)
