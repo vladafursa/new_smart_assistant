@@ -43,7 +43,8 @@ def summarize_question(question):
 
     user_prompt = (
         "Summarize and rephrase the following question formally,"
-        f"avoiding first-person language:\n\n{question}"
+        "avoiding first-person language:\n\n"
+        f"{question}"
     )
 
     payload = {
