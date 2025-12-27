@@ -1,6 +1,9 @@
+import logging
 import re
 
 import fitz
+
+logger = logging.getLogger(__name__)
 
 
 def load_pdf(path: str) -> list[dict]:
@@ -12,7 +15,7 @@ def load_pdf(path: str) -> list[dict]:
     chunks = re.split(r"\n?\s*\d+\.\s*", cleaned)
     chunks = [chunk.strip() for chunk in chunks if chunk.strip()]
 
-    print(f"📄 Parsed {len(chunks)} chunks from PDF: {path}")
+    logger.info(f" Parsed {len(chunks)} chunks from PDF: {path}")
     return [
         {
             "text": chunk,
