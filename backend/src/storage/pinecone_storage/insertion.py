@@ -1,3 +1,4 @@
+import logging
 import os
 
 from pinecone import AwsRegion, CloudProvider, Pinecone, ServerlessSpec
@@ -7,6 +8,7 @@ from src.ingestions import parse_file
 
 from .preparation import prepare_chunks_for_indexing, split_texts
 
+logger = logging.getLogger(__name__)
 pc = Pinecone(api_key=PINECONE_KEY)
 
 
@@ -33,11 +35,11 @@ def process_all_files(data_dir, index, namespace):
             continue
 
         try:
-            print(f"\n Processing file: {filename}")
+            logger.info(f"\n Processing file: {filename}")
             texts = parse_file(path)
             chunks = split_texts(texts)
             vectors = prepare_chunks_for_indexing(chunks, index)
             upsert_vectors(index, namespace, vectors)
-            print(f"Uploaded {len(vectors)} new vectors from {filename}")
+            logger.info(f"Uploaded {len(vectors)} new vectors from {filename}")
         except Exception as e:
-            print(f"Error while processing {filename}: {e}")
+            logger.error(f"Error while processing {filename}: %s", e)
