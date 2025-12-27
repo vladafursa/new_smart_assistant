@@ -3,6 +3,7 @@ from .settings import (
     CHAT_COMPLETIONS_URL,
     CHUNK_OVERLAP,
     CHUNK_SIZE,
+    DIMENSION,
     HEADERS,
     HUGGINGFACE_KEY,
     INDEX_NAME,
