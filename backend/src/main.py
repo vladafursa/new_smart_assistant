@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from storage3.exceptions import StorageApiError
 
-from src.storage import get_preview_url, list_all_files, upload_file
+from src.storage import get_preview_url, list_all_files, unified_upload
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -14,6 +14,20 @@ logging.basicConfig(
         logging.StreamHandler(),
     ],
 )
+
+NOISY_LIBS = [
+    "httpx",
+    "httpcore",
+    "hpack",
+    "urllib3",
+    "asyncio",
+    "uvicorn.error",
+    "uvicorn.access",
+]
+
+for lib in NOISY_LIBS:
+    logging.getLogger(lib).setLevel(logging.WARNING)
+
 
 api = FastAPI()
 
@@ -39,13 +53,19 @@ def read_root():
 async def upload(category: str = Form(...), file: UploadFile = File(...)):
     content = await file.read()
     try:
-        upload_file(file.filename, content, category)
-        preview_url = get_preview_url(file.filename)
+        result = unified_upload(
+            filename=file.filename,
+            content=content,
+            category=category,
+        )
+
         return {
             "message": "File uploaded successfully",
             "filename": file.filename,
-            "preview_url": preview_url,
+            "preview_url": result["preview_url"],
+            "category": category,
         }
+
     except StorageApiError as e:
         raise HTTPException(status_code=403, detail=f"Upload failed: {e}")
     except Exception as e:

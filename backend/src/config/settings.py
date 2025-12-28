@@ -7,7 +7,7 @@ load_dotenv()
 # constants
 # str
 BUCKET_NAME = "files"
-INDEX_NAME = "smart_support"
+INDEX_NAME = "smart-support"
 SUPABASE_TABLE = "documents"
 
 # int

@@ -1,3 +1,4 @@
+import io
 import logging
 import os
 
@@ -27,19 +28,12 @@ def upsert_vectors(index, namespace, vectors):
     index.upsert(vectors=vectors, namespace=namespace)
 
 
-def process_all_files(data_dir, index, namespace):
-    for filename in os.listdir(data_dir):
-        path = os.path.join(data_dir, filename)
-
-        if filename.startswith(".") or not os.path.isfile(path):
-            continue
-
-        try:
-            logger.info(f"\n Processing file: {filename}")
-            texts = parse_file(path)
-            chunks = split_texts(texts)
-            vectors = prepare_chunks_for_indexing(chunks, index)
-            upsert_vectors(index, namespace, vectors)
-            logger.info(f"Uploaded {len(vectors)} new vectors from {filename}")
-        except Exception as e:
-            logger.error(f"Error while processing {filename}: %s", e)
+def process_file(filename: str, content: bytes, index, namespace):
+    try:
+        texts = parse_file(filename, content)
+        chunks = split_texts(texts)
+        vectors = prepare_chunks_for_indexing(chunks, index)
+        upsert_vectors(index, namespace, vectors)
+        logger.info("Upserting %d vectors into %s", len(vectors), namespace)
+    except Exception as e:
+        logger.error("Error while processing: %s", e)
