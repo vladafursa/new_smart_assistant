@@ -1,11 +1,16 @@
 import logging
+from typing import List
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from storage3.exceptions import StorageApiError
 
-from src.storage import get_preview_url, list_all_files, unified_upload
+from src.ml import generate_answer, query_index
+from src.ml.classification import classify
+from src.storage import get_preview_url, init_index, list_all_files, unified_upload
+
+index = init_index()
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -44,6 +49,22 @@ class CategoryMeta(BaseModel):
     category: str
 
 
+class ChunkMetadata(BaseModel):
+    text: str
+    source: str
+    category: str
+    entities: List[str]
+
+
+class QueryResponse(BaseModel):
+    answer: str
+    chunks: List[ChunkMetadata]
+
+
+class QueryRequest(BaseModel):
+    question: str
+
+
 @api.get("/")
 def read_root():
     return {"message": "Hello, FastAPI!"}
@@ -57,6 +78,7 @@ async def upload(category: str = Form(...), file: UploadFile = File(...)):
             filename=file.filename,
             content=content,
             category=category,
+            index=index,
         )
 
         return {
@@ -87,3 +109,12 @@ async def files():
         raise HTTPException(status_code=403, detail=f"Listing failed: {e}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Unexpected error: {e}")
+
+
+@api.post("/rag", response_model=QueryResponse)
+def rag_endpoint(request: QueryRequest):
+    category = classify(request.question)
+    context_chunks = query_index(index, request.question, category)
+    context_text = "\n\n".join([chunk["text"] for chunk in context_chunks])
+    answer = generate_answer(context_text, request.question)
+    return QueryResponse(answer=answer, chunks=context_chunks)
