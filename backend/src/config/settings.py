@@ -1,35 +1,35 @@
-import os
+from pydantic import AnyHttpUrl, Field
+from pydantic_settings import BaseSettings
 
-from dotenv import load_dotenv
 
-load_dotenv()
+class Settings(BaseSettings):
+    # constants
+    BUCKET_NAME: str = "files"
+    INDEX_NAME: str = "smart-support"
+    SUPABASE_TABLE: str = "documents"
 
-# constants
-# str
-BUCKET_NAME = "files"
-INDEX_NAME = "smart-support"
-SUPABASE_TABLE = "documents"
+    # int
+    CHUNK_SIZE: int = 500
+    CHUNK_OVERLAP: int = 100
+    DIMENSION: int = 1024
+    TIMEOUT: int = 30
 
-# int
-CHUNK_SIZE = 500
-CHUNK_OVERLAP = 100
-DIMENSION = 1024
-TIMEOUT = 30
+    # keys (required, no defaults)
+    HUGGINGFACE_KEY: str
+    LLM_KEY: str
+    PINECONE_KEY: str
+    SUPABASE_KEY: str
 
-# keys
-HUGGINGFACE_KEY = os.getenv("HUGGINGFACE_KEY")
-LLM_KEY = os.getenv("LLM_KEY")
-PINECONE_KEY = os.getenv("PINECONE_KEY")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+    # URLs
+    CHAT_COMPLETIONS_URL: str
+    MULTILINGUAL_E5_EMBEDDER_URL: str
+    MULTILINGUAL_MINILM_L12_CLASSIFICATION_URL: str
+    SUPABASE_URL: str
 
-# URLS
-CHAT_COMPLETIONS_URL = os.getenv("CHAT_COMPLETIONS_URL")
-MULTILINGUAL_E5_EMBEDDER_URL = os.getenv("MULTILINGUAL_E5_EMBEDDER_URL")
-MULTILINGUAL_MINILM_L12_CLASSIFICATION_URL = os.getenv(
-    "MULTILINGUAL_MINILM_L12_CLASSIFICATION_URL"
-)
-SUPABASE_URL = os.getenv("SUPABASE_URL")
+    class Config:
+        env_file = ".env"  # automatically loads from .env
+        env_file_encoding = "utf-8"
 
-HEADERS = {
-    "Authorization": f"Bearer {HUGGINGFACE_KEY}",
-}
+
+settings = Settings()
+HEADERS = {"Authorization": f"Bearer {settings.HUGGINGFACE_KEY}"}

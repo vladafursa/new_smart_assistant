@@ -3,12 +3,12 @@ import logging
 import requests
 from requests.exceptions import HTTPError, RequestException
 
-from src.config import CHAT_COMPLETIONS_URL, HUGGINGFACE_KEY
+from src.config import settings
 
 logger = logging.getLogger(__name__)
 
 headers = {
-    "Authorization": f"Bearer {HUGGINGFACE_KEY}",
+    "Authorization": f"Bearer {settings.HUGGINGFACE_KEY}",
     "Content-Type": "application/json",
 }
 
@@ -61,7 +61,7 @@ def summarize_question(question):
     # try Hugging Face API
     try:
         response = requests.post(
-            CHAT_COMPLETIONS_URL, headers=headers, json=payload, timeout=30
+            settings.CHAT_COMPLETIONS_URL, headers=headers, json=payload, timeout=30
         )
         response.raise_for_status()
         return response.json()["choices"][0]["message"]["content"]

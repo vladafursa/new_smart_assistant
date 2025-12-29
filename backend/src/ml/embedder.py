@@ -3,7 +3,7 @@ import logging
 import requests
 from requests.exceptions import HTTPError, RequestException
 
-from src.config import HEADERS, MULTILINGUAL_E5_EMBEDDER_URL, TIMEOUT
+from src.config import HEADERS, settings
 
 logger = logging.getLogger(__name__)
 
@@ -37,7 +37,10 @@ def get_embeddings(texts):
     # hugging face API trial
     try:
         response = requests.post(
-            MULTILINGUAL_E5_EMBEDDER_URL, headers=HEADERS, json=payload, timeout=TIMEOUT
+            settings.MULTILINGUAL_E5_EMBEDDER_URL,
+            headers=HEADERS,
+            json=payload,
+            timeout=settings.TIMEOUT,
         )
         response.raise_for_status()
         data = response.json()

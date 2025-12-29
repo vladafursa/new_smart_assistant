@@ -1,10 +1,10 @@
 import requests
 
-from src.config import HUGGINGFACE_KEY
+from src.config import settings
 
 API_URL = "https://router.huggingface.co/v1/chat/completions"
 headers = {
-    "Authorization": f"Bearer {HUGGINGFACE_KEY}",
+    "Authorization": f"Bearer {settings.HUGGINGFACE_KEY}",
     "Content-Type": "application/json",
 }
 

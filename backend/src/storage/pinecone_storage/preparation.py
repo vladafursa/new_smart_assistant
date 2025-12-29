@@ -3,14 +3,14 @@ import hashlib
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from tqdm import tqdm
 
-from src.config import CHUNK_OVERLAP, CHUNK_SIZE
+from src.config import settings
 from src.ml import extract_entities, get_embeddings
 
 
 def split_texts(text_records):
     splitter = RecursiveCharacterTextSplitter(
-        chunk_size=CHUNK_SIZE,
-        chunk_overlap=CHUNK_OVERLAP,
+        chunk_size=settings.CHUNK_SIZE,
+        chunk_overlap=settings.CHUNK_OVERLAP,
     )
     chunks = []
     for i, record in enumerate(text_records):
