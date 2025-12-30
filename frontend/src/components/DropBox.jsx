@@ -74,7 +74,7 @@ const DropBox = () => {
         >
           <option value="">-- Choose category --</option>
           <option value="customer">Customer</option>
-          <option value="technical">Technical</option>
+          <option value="tech">Technical</option>
         </select>
       </div>
 
