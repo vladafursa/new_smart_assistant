@@ -4,3 +4,7 @@ class UnsupportedFileTypeError(Exception):
 
 class FileParsingError(Exception):
     pass
+
+
+class EmptyFileError(Exception):
+    pass
