@@ -8,7 +8,7 @@ from src.config import settings
 logger = logging.getLogger(__name__)
 
 headers = {
-    "Authorization": f"Bearer {settings.HUGGINGFACE_KEY}",
+    "Authorization": f"Bearer {settings.HUGGINGFACE_KEY.get_secret_value()}",
     "Content-Type": "application/json",
 }
 

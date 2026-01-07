@@ -14,11 +14,11 @@ class Settings(BaseSettings):
     DIMENSION: int = 1024
     TIMEOUT: int = 30
 
-    # keys (required, no defaults)
-    HUGGINGFACE_KEY: str
-    LLM_KEY: str
-    PINECONE_KEY: str
-    SUPABASE_KEY: str
+    # keys
+    HUGGINGFACE_KEY: SecretStr
+    LLM_KEY: SecretStr
+    PINECONE_KEY: SecretStr
+    SUPABASE_KEY: SecretStr
 
     # URLs
     CHAT_COMPLETIONS_URL: AnyHttpUrl
@@ -35,7 +35,7 @@ class Settings(BaseSettings):
 
     @property
     def huggingface_headers(self) -> dict:
-        return {"Authorization": f"Bearer {self.HUGGINGFACE_KEY}"}
+        return {"Authorization": f"Bearer {self.HUGGINGFACE_KEY.get_secret_value()}"}
 
 
 settings = Settings()

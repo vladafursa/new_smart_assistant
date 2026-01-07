@@ -7,7 +7,9 @@ from src.config import settings
 
 logger = logging.getLogger(__name__)
 
-supabase = create_client(str(settings.SUPABASE_URL), settings.SUPABASE_KEY)
+supabase = create_client(
+    str(settings.SUPABASE_URL), settings.SUPABASE_KEY.get_secret_value()
+)
 
 
 # file upload into supabase storage and its metadata into table

@@ -4,7 +4,7 @@ from src.config import settings
 
 API_URL = "https://router.huggingface.co/v1/chat/completions"
 headers = {
-    "Authorization": f"Bearer {settings.HUGGINGFACE_KEY}",
+    "Authorization": f"Bearer {settings.HUGGINGFACE_KEY.get_secret_value()}",
     "Content-Type": "application/json",
 }
 

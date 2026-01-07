@@ -8,7 +8,7 @@ from src.ingestions import parse_file
 from .preparation import prepare_chunks_for_indexing, split_texts
 
 logger = logging.getLogger(__name__)
-pc = Pinecone(api_key=settings.PINECONE_KEY)
+pc = Pinecone(api_key=settings.PINECONE_KEY.get_secret_value())
 
 
 def init_index():

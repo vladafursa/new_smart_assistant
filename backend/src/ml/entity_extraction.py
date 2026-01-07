@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 _LOCAL_MODEL = None
 
 headers = {
-    "Authorization": f"Bearer {settings.HUGGINGFACE_KEY}",
+    "Authorization": f"Bearer {settings.HUGGINGFACE_KEY.get_secret_value()}",
     "Content-Type": "application/json",
 }
 
