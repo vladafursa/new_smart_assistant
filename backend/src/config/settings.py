@@ -1,5 +1,5 @@
 from pydantic import AnyHttpUrl, Field
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
@@ -22,13 +22,16 @@ class Settings(BaseSettings):
 
     # URLs
     CHAT_COMPLETIONS_URL: str
+    FRONTEND_URL: str
     MULTILINGUAL_E5_EMBEDDER_URL: str
     MULTILINGUAL_MINILM_L12_CLASSIFICATION_URL: str
     SUPABASE_URL: str
 
-    class Config:
-        env_file = ".env"  # automatically loads from .env
-        env_file_encoding = "utf-8"
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        case_sensitive=True,
+    )
 
 
 settings = Settings()
