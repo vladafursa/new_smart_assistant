@@ -1,7 +1,7 @@
 from fastapi import APIRouter, File, Form, HTTPException, Request, UploadFile
 from storage3.exceptions import StorageApiError
 
-from src.apis.models import FileInfo, FileListResponse, UploadResponse
+from src.apis.storage_models import FileInfo, FileListResponse, UploadResponse
 from src.storage import get_preview_url, list_all_files, unified_upload
 
 storage = APIRouter(prefix="/storage", tags=["storage"])

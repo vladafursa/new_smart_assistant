@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request
 
-from src.apis.models import QueryRequest, QueryResponse
+from src.apis.rag_models import QueryRequest, QueryResponse
 from src.ml import generate_answer, query_index
 from src.ml.classification import classify
 
