@@ -1,3 +1,5 @@
+import logging
+
 from fastapi import APIRouter, File, Form, HTTPException, Request, UploadFile
 from storage3.exceptions import StorageApiError
 
@@ -5,6 +7,7 @@ from src.apis.storage_models import FileInfo, FileListResponse, UploadResponse
 from src.storage import get_preview_url, list_all_files, unified_upload
 
 storage = APIRouter(prefix="/storage", tags=["storage"])
+logger = logging.getLogger(__name__)
 
 
 @storage.post("/upload", response_model=UploadResponse)
@@ -29,8 +32,10 @@ async def upload(
         )
 
     except StorageApiError as e:
+        logger.exception("Storage API error during upload")
         raise HTTPException(status_code=403, detail=f"Upload failed: {e}")
     except Exception as e:
+        logger.exception("Unexpected error during upload")
         raise HTTPException(status_code=500, detail=f"Unexpected error: {e}")
 
 
@@ -47,6 +52,8 @@ async def files():
 
         return FileListResponse(files=retrieved_files)
     except StorageApiError as e:
+        logger.exception("Storage API error during file listing")
         raise HTTPException(status_code=403, detail=f"Listing failed: {e}")
     except Exception as e:
+        logger.exception("Unexpected error during file listing")
         raise HTTPException(status_code=500, detail=f"Unexpected error: {e}")
