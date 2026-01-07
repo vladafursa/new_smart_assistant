@@ -1,4 +1,4 @@
-from pydantic import AnyHttpUrl, Field
+from pydantic import AnyHttpUrl, Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -21,11 +21,11 @@ class Settings(BaseSettings):
     SUPABASE_KEY: str
 
     # URLs
-    CHAT_COMPLETIONS_URL: str
-    FRONTEND_URL: str
-    MULTILINGUAL_E5_EMBEDDER_URL: str
-    MULTILINGUAL_MINILM_L12_CLASSIFICATION_URL: str
-    SUPABASE_URL: str
+    CHAT_COMPLETIONS_URL: AnyHttpUrl
+    FRONTEND_URL: AnyHttpUrl
+    MULTILINGUAL_E5_EMBEDDER_URL: AnyHttpUrl
+    MULTILINGUAL_MINILM_L12_CLASSIFICATION_URL: AnyHttpUrl
+    SUPABASE_URL: AnyHttpUrl
 
     model_config = SettingsConfigDict(
         env_file=".env",
@@ -33,6 +33,9 @@ class Settings(BaseSettings):
         case_sensitive=True,
     )
 
+    @property
+    def huggingface_headers(self) -> dict:
+        return {"Authorization": f"Bearer {self.HUGGINGFACE_KEY}"}
+
 
 settings = Settings()
-HEADERS = {"Authorization": f"Bearer {settings.HUGGINGFACE_KEY}"}

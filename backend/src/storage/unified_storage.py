@@ -1,4 +1,4 @@
-from .pinecone_storage import init_index, process_file
+from .pinecone_storage import process_file
 from .supabase_storage import get_preview_url, upload_file
 
 

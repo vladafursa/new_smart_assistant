@@ -1,6 +1,4 @@
-import io
 import logging
-import os
 
 from pinecone import AwsRegion, CloudProvider, Pinecone, ServerlessSpec
 

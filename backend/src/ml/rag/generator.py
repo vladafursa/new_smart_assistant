@@ -27,7 +27,7 @@ def generate_answer(context, query):
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt},
         ],
-        "temperature": 0.5,
+        "temperature": 0.4,
         "max_tokens": 512,
     }
 

@@ -1,1 +1,1 @@
-from .settings import HEADERS, settings
+from .settings import settings

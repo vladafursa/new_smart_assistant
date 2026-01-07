@@ -64,7 +64,10 @@ def extract_entities(question):
     # try Hugging Face API
     try:
         response = requests.post(
-            settings.CHAT_COMPLETIONS_URL, headers=headers, json=payload, timeout=30
+            str(settings.CHAT_COMPLETIONS_URL),
+            headers=headers,
+            json=payload,
+            timeout=30,
         )
         response.raise_for_status()
         raw = response.json()["choices"][0]["message"]["content"].strip()

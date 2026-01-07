@@ -3,7 +3,7 @@ import logging
 import requests
 from requests.exceptions import HTTPError, RequestException
 
-from src.config import HEADERS, settings
+from src.config import settings
 
 logger = logging.getLogger(__name__)
 
@@ -37,8 +37,8 @@ def get_embeddings(texts):
     # hugging face API trial
     try:
         response = requests.post(
-            settings.MULTILINGUAL_E5_EMBEDDER_URL,
-            headers=HEADERS,
+            str(settings.MULTILINGUAL_E5_EMBEDDER_URL),
+            headers=settings.huggingface_headers,
             json=payload,
             timeout=settings.TIMEOUT,
         )

@@ -4,7 +4,7 @@ import pickle
 import requests
 from scipy.spatial.distance import cosine
 
-from src.config import HEADERS, settings
+from src.config import settings
 
 from .embedder import get_embeddings
 
@@ -31,8 +31,8 @@ small_embeds = embeds["talk"]
 
 def query(payload):
     response = requests.post(
-        settings.MULTILINGUAL_MINILM_L12_CLASSIFICATION_URL,
-        headers=HEADERS,
+        str(settings.MULTILINGUAL_MINILM_L12_CLASSIFICATION_URL),
+        headers=settings.huggingface_headers,
         json=payload,
     )
     return response.json()
