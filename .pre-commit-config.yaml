@@ -10,7 +10,10 @@ repos:
     rev: 6.1.0
     hooks:
       - id: flake8
-        args: [--ignore=F401,--max-line-length=88]
+        args: [ 
+          "--ignore=F401,W503",
+          "--max-line-length=88",
+        ]
   # Python: isort (imports sorting) 
   - repo: https://github.com/PyCQA/isort 
     rev: 5.12.0 
