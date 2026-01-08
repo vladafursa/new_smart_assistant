@@ -28,13 +28,23 @@ def find_columns(
         (question_column_name, answer_column_name), or (None, None) if not found."""
 
     # Normalize column names for case/whitespace-insensitive matching
-    normalized_columns = {col.lower().strip(): col for col in df.columns}
+    normalized_columns = [col.strip().lower() for col in df.columns]
+
     question_column = next(
-        (normalized_columns[c] for c in question_aliases if c in normalized_columns),
+        (
+            alias.capitalize()
+            for alias in question_aliases
+            if alias.lower() in normalized_columns
+        ),
         None,
     )
     answer_column = next(
-        (normalized_columns[c] for c in answer_aliases if c in normalized_columns), None
+        (
+            alias.capitalize()
+            for alias in answer_aliases
+            if alias.lower() in normalized_columns
+        ),
+        None,
     )
     return question_column, answer_column
 
