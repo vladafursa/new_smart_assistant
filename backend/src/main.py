@@ -2,10 +2,12 @@ import logging
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from prometheus_client import make_asgi_app
 
 from src.apis.rag_api import rag
 from src.apis.storage_api import storage
 from src.config import settings
+from src.observability.middleware import MetricsMiddleware
 from src.storage import init_index
 
 # Logging configuration
@@ -32,6 +34,7 @@ for lib in NOISY_LIBS:
 
 # FastAPI app setup
 app = FastAPI()
+app.mount("/metrics", make_asgi_app())
 
 
 # Startup event for index initialization
@@ -54,3 +57,4 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.add_middleware(MetricsMiddleware)
