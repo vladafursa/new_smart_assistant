@@ -9,4 +9,19 @@ repos:
   - repo: https://github.com/pycqa/flake8
     rev: 6.1.0
     hooks:
-      - id: flake8			
+      - id: flake8
+        args: [ 
+          "--ignore=F401,W503",
+          "--max-line-length=88",
+        ]
+  # Python: isort (imports sorting) 
+  - repo: https://github.com/PyCQA/isort 
+    rev: 5.12.0 
+    hooks: 
+      - id: isort
+        args: [
+          "--profile", "black",
+          "--line-length", "88", 
+          "-p", "src",
+          "-o", "supabase,storage3",
+        ]
