@@ -7,6 +7,8 @@ class Settings(BaseSettings):
     BUCKET_NAME: str = "files"
     INDEX_NAME: str = "smart-support"
     SUPABASE_TABLE: str = "documents"
+    QUESTION_ALIASES: set[str] = {"Question", "Q"}
+    ANSWER_ALIASES: set[str] = {"Answer", "A"}
 
     # int
     CHUNK_SIZE: int = 500

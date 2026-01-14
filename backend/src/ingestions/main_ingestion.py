@@ -16,7 +16,10 @@ LOADERS = {
 }
 
 
-def parse_file(filename: str, content: bytes) -> list[dict]:
+def parse_file(filename: str, content: bytes) -> list[dict[str, str]]:
+    """
+    a function that detects the type of file and calls an appropriate loader
+    """
     ext = Path(filename).suffix.lower()
     file = io.BytesIO(content)
 

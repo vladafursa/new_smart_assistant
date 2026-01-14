@@ -7,7 +7,7 @@ from src.ml.classification import classify
 rag = APIRouter(prefix="/rag", tags=["rag"])
 
 
-@rag.post("/rag", response_model=QueryResponse)
+@rag.post("/ask", response_model=QueryResponse)
 def rag_endpoint(request: Request, body: QueryRequest):
     index = request.app.state.index
     category = classify(body.question)
